@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.ddit.dto.NoticeVO;
 import kr.or.ddit.handler.Handler;
 import kr.or.ddit.service.NoticeService;
-import sun.print.resources.serviceui;
 
 public class NoticeModifyFormHandler implements Handler {
 
