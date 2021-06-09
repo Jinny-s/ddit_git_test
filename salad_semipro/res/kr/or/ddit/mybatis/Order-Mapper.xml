@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Order-Mapper">
+	
+	<sql id="search">
+		<if test="searchType == 'i'.toString()">
+			and id like '%'||#{keyword}||'%'
+		</if>
+	</sql>
+	
+	<select id="selectSearchOrderList" resultType="order">
+		select *
+		from   orderlist
+		where  ono is not null
+		<include refid="search" />
+		order by orderdate desc
+	</select>
+	
+	<select id="selectSearchOrderListCount" resultType="int">
+		select count(*)
+		from   orderlist
+		where  ono is not null
+		<include refid="search" />
+		order by orderdate desc
+	</select>
+	
+	<select id="selectOrderByOno" resultType="order">
+		select *
+		from   orderlist
+		where  ono = #{ono}
+	</select>
+	
+	<select id="selectOrderSequenceNextValue" resultType="int">
+		select ono_seq.nextVal
+		from dual
+	</select>
+	
+	<update id="insertOrder">
+		insert into
+		orderlist (ono, id, totalprice)
+		values    (#{ono}, #{id}, #{totalprice})
+	</update>
+	
+	<update id="updateOrderStatus">
+		update orderlist
+		set    orderstatus = #{orderstatus}
+		where  ono = #{ono}
+	</update>
+	
+	<update id="deleteOrder">
+		delete from orderList
+		where  ono = #{ono}
+	</update>
+	
+</mapper>

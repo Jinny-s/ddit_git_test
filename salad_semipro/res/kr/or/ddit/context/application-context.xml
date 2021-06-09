@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <beans>
 	<!-- dataSource -->
 	<bean id="sqlSessionFactory" class="kr.or.ddit.mybatis.OracleMyBatisSqlSessionFactory" />
@@ -11,6 +10,8 @@
 	<bean id="noticeDAO"  class="kr.or.ddit.dao.NoticeDAOImpl" />
 	<bean id="boardDAO"  class="kr.or.ddit.dao.BoardDAOImpl" />
 	<bean id="replyDAO"  class="kr.or.ddit.dao.ReplyDAOImpl" />
+	<bean id="orderDAO"  class="kr.or.ddit.dao.OrderDAOImpl" />
+	<bean id="orderdetailDAO"  class="kr.or.ddit.dao.OrderdetailDAOImpl" />
 	
 	<!-- Service layer -->
 	<bean id="menuService" class="kr.or.ddit.service.MenuServiceImpl">
@@ -40,4 +41,14 @@
 		<property name="memberDAO" ref-value="memberDAO" />
 	</bean>
 	
+	<bean id="orderService" class="kr.or.ddit.service.OrderServiceImpl">
+		<property name="sqlSessionFactory" ref-value="sqlSessionFactory" />
+		<property name="orderDAO" ref-value="orderDAO" />
+		<property name="orderdetailDAO" ref-value="orderdetailDAO" />
+	</bean>
+	
+	<bean id="orderdetailService" class="kr.or.ddit.service.OrderdetailServiceImpl">
+		<property name="sqlSessionFactory" ref-value="sqlSessionFactory" />
+		<property name="orderdetailDAO" ref-value="orderdetailDAO" />
+	</bean>
 </beans>

@@ -13,6 +13,8 @@
 		<typeAlias type="kr.or.ddit.dto.NoticeVO" alias="notice" />
 		<typeAlias type="kr.or.ddit.dto.BoardVO" alias="board" />
 		<typeAlias type="kr.or.ddit.dto.ReplyVO" alias="reply" />
+		<typeAlias type="kr.or.ddit.dto.OrderVO" alias="order" />
+		<typeAlias type="kr.or.ddit.dto.OrderdetailVO" alias="orderdetail" />
 	</typeAliases>
 	
 	<environments default="development">
@@ -34,5 +36,7 @@
 		<mapper resource="kr/or/ddit/mybatis/Notice-Mapper.xml" />
 		<mapper resource="kr/or/ddit/mybatis/Board-Mapper.xml" />
 		<mapper resource="kr/or/ddit/mybatis/Reply-Mapper.xml" />
+		<mapper resource="kr/or/ddit/mybatis/Order-Mapper.xml" />
+		<mapper resource="kr/or/ddit/mybatis/Orderdetail-Mapper.xml" />
 	</mappers>
 </configuration>
