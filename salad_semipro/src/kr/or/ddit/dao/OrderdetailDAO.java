@@ -17,4 +17,7 @@ public interface OrderdetailDAO {
 	
 	// 상세내역의 상품 수 조회
 	int selectPnameCountByOno(SqlSession session, int ono) throws SQLException;
+	
+	// 주소지 변경
+	public void updateOrderInfoByOno(SqlSession session, OrderdetailVO detail) throws SQLException;
 }

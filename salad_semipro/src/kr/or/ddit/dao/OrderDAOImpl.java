@@ -46,8 +46,8 @@ public class OrderDAOImpl implements OrderDAO {
 	}
 
 	@Override
-	public void updateOrderStatus(SqlSession session, OrderVO order) throws SQLException {
-		session.update("Order-Mapper.updateOrderStatus", order);
+	public void updateOrderStatus(SqlSession session, int ono) throws SQLException {
+		session.update("Order-Mapper.updateOrderStatus", ono);
 	}
 
 	@Override

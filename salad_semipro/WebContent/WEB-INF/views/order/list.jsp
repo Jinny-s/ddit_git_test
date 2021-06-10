@@ -24,7 +24,7 @@
 	  				<ol class="breadcrumb float-sm-right">
 			        <li class="breadcrumb-item">
 			        	<a href="list.do">
-				        	<i class="fa fa-dashboard"></i>구매내역
+				        	<i class="fa fa-dashboard"></i>주문내역
 				        </a>
 			        </li>
 			        <li class="breadcrumb-item active">
@@ -73,10 +73,11 @@
 						<th>구매금액</th>
 						<th>구매일</th>
 						<th>구매상태</th>
+						<th>취소하기</th>
 					</tr>				
 					<c:if test="${empty orderList }" >
 						<tr>
-							<td colspan="6">
+							<td colspan="7">
 								<strong>해당 내용이 없습니다.</strong>
 							</td>
 						</tr>
@@ -85,7 +86,7 @@
 						<tr style='font-size:0.85em;'>
 							<td id="ono" style="text-align:center;max-width: 100px; overflow: hidden; 
 												white-space: nowrap; text-overflow: ellipsis;">
-								<a href="javascript:OpenWindow('detail.do?ono=${order.ono }','상세보기',800,700);">
+								<a href="javascript:OpenWindow('detail.do?ono=${order.ono }','상세보기',1000,800);">
 									<span class="col-sm-12"> ${order.ono}</span>
 								</a>
 							</td>
@@ -109,6 +110,13 @@
 								<span class="badge bg-red">구매취소</span>
 							</c:if>
 							</td>
+							<td>
+							<c:if test="${order.orderstatus eq 1 }">
+								<button type="button" id="removeBtn" class="btn btn-danger btn-xs" onclick="cancel_go(${order.ono});">취소하기</button>
+							</c:if>
+							<c:if test="${order.orderstatus eq 2 }">
+							</c:if>
+							</td>
 						</tr>
 					</c:forEach>
 				</table>				
@@ -120,7 +128,21 @@
 		
     </section>
     <!-- /.content -->
-
+<form role="form">
+	<input type="hidden" name="ono" value="" />
+</form>
+<script>
+function cancel_go(ono){
+		var formObj = $("form[role='form']");
+		$("input[name='ono']").val(ono);
+		var answer = confirm("주문을 취소하시겠습니까?");
+		if(answer){		
+			formObj.attr("action", "cancel.do");
+			formObj.attr("method", "post");
+			formObj.submit();
+		}
+	}
+</script>
 <script src="/resources/js/common.js" ></script>
 
 </body>

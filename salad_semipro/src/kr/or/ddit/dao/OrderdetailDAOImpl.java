@@ -27,4 +27,9 @@ public class OrderdetailDAOImpl implements OrderdetailDAO {
 		return count;
 	}
 
+	@Override
+	public void updateOrderInfoByOno(SqlSession session, OrderdetailVO detail) throws SQLException {
+		session.update("Orderdetail-Mapper.updateOrderInfoByOno", detail);
+	}
+
 }

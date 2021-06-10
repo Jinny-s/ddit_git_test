@@ -13,6 +13,7 @@ import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dao.OrderDAO;
 import kr.or.ddit.dao.OrderdetailDAO;
 import kr.or.ddit.dto.OrderVO;
+import kr.or.ddit.dto.OrderdetailVO;
 
 public class OrderServiceImpl implements OrderService {
 	
@@ -46,7 +47,6 @@ public class OrderServiceImpl implements OrderService {
 				int pcount = orderdetailDAO.selectPnameCountByOno(session, order.getOno());
 				order.setPname(pname);
 				order.setPcount(pcount);
-				System.out.println("카운트" + pcount + " ? " + order.getOno());
 			}
 			
 			int totalCount = orderDAO.selectSearchOrderListCount(session, cri);
@@ -66,13 +66,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public OrderVO getOrder(int ono) throws SQLException {
+	public Map<String, Object> getOrder(int ono) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
 
 		try {
-			OrderVO order = orderDAO.selectOrderByOno(session, ono);
+			Map<String, Object> dataMap = new HashMap<String, Object>();
 			
-			return order;
+			OrderVO order = orderDAO.selectOrderByOno(session, ono);
+			List<OrderdetailVO> detailList = orderdetailDAO.selectOrderdetailListByOno(session, ono);
+			
+			dataMap.put("order", order);
+			dataMap.put("detailList", detailList);
+			
+			return dataMap;
 		} finally {
 			session.close();
 		}
@@ -94,11 +100,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void modify(OrderVO order) throws SQLException {
+	public void modify(int ono) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
 		
 		try {
-			orderDAO.updateOrderStatus(session, order);
+			orderDAO.updateOrderStatus(session, ono);
 		} finally {
 			session.close();
 		}

@@ -14,4 +14,6 @@ public interface OrderdetailService {
 	String getPname(int ono) throws SQLException;
 	
 	int getPcount(int ono) throws SQLException;
+	
+	void modify(OrderdetailVO detail) throws SQLException;
 }

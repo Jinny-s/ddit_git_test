@@ -54,4 +54,14 @@ public class OrderdetailServiceImpl implements OrderdetailService {
 		}
 	}
 
+	@Override
+	public void modify(OrderdetailVO detail) throws SQLException {
+		SqlSession session = sqlSessionFactory.openSession();
+		try {
+			orderdetailDAO.updateOrderInfoByOno(session, detail);;
+		} finally {
+			session.close();
+		}
+	}
+
 }

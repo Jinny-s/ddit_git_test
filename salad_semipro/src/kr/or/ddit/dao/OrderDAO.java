@@ -26,7 +26,7 @@ public interface OrderDAO {
 	public void insertOrder(SqlSession session, OrderVO order) throws SQLException;
 	
 	// 주문 상태 변경
-	public void updateOrderStatus(SqlSession session, OrderVO order) throws SQLException;
+	public void updateOrderStatus(SqlSession session, int ono) throws SQLException;
 	
 	// 주문 삭제
 	public void deleteOrder(SqlSession session, int ono) throws SQLException;

@@ -45,7 +45,7 @@
 	
 	<update id="updateOrderStatus">
 		update orderlist
-		set    orderstatus = #{orderstatus}
+		set    orderstatus = 2
 		where  ono = #{ono}
 	</update>
 	
