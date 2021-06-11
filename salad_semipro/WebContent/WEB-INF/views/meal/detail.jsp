@@ -72,7 +72,7 @@
 						</div>
 						<div class="card-footer text-center">
 							<label for ="price">주문 수량
-							<input type="number" class="form-control" id="qty" value="" /></label>
+							<input type="number" class="form-control" id="qty" value="0" min="0" max="100"/></label>
 							
 							<button type="button" id="modifyBtn" class="btn btn-warning" onclick="order_go();">주문하기</button>	
 												
@@ -157,6 +157,7 @@
 	<input type="hidden" name="qty" value="" />
 	<input type="hidden" name="price" value="${product.price }" />
 	<input type="hidden" name="totalprice" value="" /> 
+	<input type="hidden" name="sessionId" value="${loginUser.id }" /> 
 	
 </form>
 	

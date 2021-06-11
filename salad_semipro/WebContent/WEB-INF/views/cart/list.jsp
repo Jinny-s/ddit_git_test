@@ -63,7 +63,7 @@
 		              		</td>
 <%-- 		              		<td>${cart.price }</td> --%>
 		              		<td>
-		              			<input type="number" value="${cart.qty }" max="100" min="0" step="1" id="qty"/>
+		              			<input type="number" value="${cart.qty }" max="100" min="0" step="1" id="qty${cart.cno}"/>
 		              			<button type="button" class="btn btn-block btn-outline-secondary btn-xs-1" onclick="qty_change('${cart.cno}');">수량변경</button>
 		              		</td>
 		              		<td>
@@ -137,8 +137,9 @@
 	function qty_change(cno) {
 		console.log("수량 변경시작1:" + cno);
 		console.log("수량 변경시작2:" + $('#qty').val());
+		var qtyval = "#qty" + cno;
 		var qtycno = {
-				qty : $('#qty').val(),
+				qty : $(qtyval).val(),
 				cno : cno
 		};
 		$.ajax({
@@ -147,10 +148,10 @@
 			, data : JSON.stringify(qtycno)
 			, contentType : "application/json"
 			, success : function(result) {
-				console.log("수량 수정완료");
+				alert("수량 수정완료");
 			}
 			, error : function(error) {
-				console.log("수량 수정실패");
+				alert("수량 수정실패");
 			}
 		});
 	}

@@ -30,9 +30,9 @@
 	
 	<update id="insertCart">
 		insert into cart
-		(cno, pno, pname, qty)
+		(cno, pno, pname, qty, id)
 		values
-		(#{cno}, #{pno}, #{pname}, #{qty})
+		(#{cno}, #{pno}, #{pname}, #{qty}, #{id})
 	</update>
 	
 	<update id="updateCart">

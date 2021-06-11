@@ -17,10 +17,20 @@ public class CartRemoveHandler implements Handler {
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String url = "cart/remove_success";
 		
-		int cno = Integer.parseInt(request.getParameter("cno"));
-		System.out.println(cno);
+		String cnoList = request.getParameter("cno");
+		System.out.println("@@@@cno : " + cnoList);
 		
-		cartService.remove(cno);
+		if(cnoList.contains(",")) {
+			String[] cnoListArr = cnoList.split(",");
+			for(String cno : cnoListArr) {
+				int cnoNum = Integer.parseInt(cno);
+				cartService.remove(cnoNum);
+			}
+		} else {
+			String[] cnoListArr = cnoList.split(",");
+			int cnoNum = Integer.parseInt(cnoListArr[0]);
+			cartService.remove(cnoNum);
+		}
 		
 		return url;
 	}
