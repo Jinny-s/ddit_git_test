@@ -10,41 +10,48 @@ import kr.or.ddit.handler.Handler;
 import kr.or.ddit.service.MemberService;
 import kr.or.ddit.utils.GetUploadPath;
 
-public class MemberRemoveHandler implements Handler {
+public class MemberRemoveHandler implements Handler{
+
 
 	private MemberService memberService;
 	public void setMemberService(MemberService memberService) {
-		this.memberService = memberService;
+		this.memberService=memberService;
 	}
-
+	
+	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String url = "member/delete_success";
+		String url="member/remove_success";
 		
 		String id = request.getParameter("id");
-
+		
 		MemberVO member = memberService.getMember(id);
 		
-		String savedPath = GetUploadPath.getUploadPath("member.picture.upload");
-		String fileName = member.getPicture();
-		File picture = new File(savedPath, fileName);
+		//이미지 삭제
+		String savedPath=GetUploadPath.getUploadPath("member.picture.upload");
+		String fileName=member.getPicture();
+		File picture = new File(savedPath,fileName);
 		
-		if(picture.exists()) {
-			picture.delete();
-		}
+		if(picture.exists()) picture.delete(); 
 		
-		// DB삭제
+		//DB삭제
 		memberService.remove(id);
+		request.setAttribute("id", id);
 		
-		//로그인 사용자 확인
+		//로그인 유저 확인
+		// 삭제되는 회원이 로그인 회원인경우 로그아웃 해야함.
 		MemberVO loginUser = (MemberVO) request.getSession().getAttribute("loginUser");
 		if (loginUser.getId().equals(member.getId())) {
-			request.getSession().invalidate(); // session 갱신
+			request.getSession().invalidate(); //session 갱신
 		}
-
-		request.setAttribute("member", member);
 		
 		return url;
 	}
-
+	
 }
+
+
+
+
+
+

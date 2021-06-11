@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.ddit.utils.MakeFileName;
 
 public class FileDownloadResolver {
-	
-	public static void sendFile(String fileName, String savedPath, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public static void sendFile(String fileName, String savedPath, HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException{
 		
 		String filePath = savedPath + File.separator + fileName;
 		
@@ -22,7 +22,7 @@ public class FileDownloadResolver {
 		File downloadFile = new File(filePath);
 		FileInputStream inStream = new FileInputStream(downloadFile);
 		
-		// 파일 포맷으로 MIME를 결정한다.
+		// 파일 포멧으로 MIME를 결정
 		ServletContext context = request.getServletContext();
 		String mimeType = context.getMimeType(filePath);
 		if(mimeType == null) {
@@ -31,9 +31,9 @@ public class FileDownloadResolver {
 		
 		// response 수정
 		response.setContentType(mimeType);
-		response.setContentLength((int) downloadFile.length());
+		response.setContentLength((int)downloadFile.length());
 		
-		String headerKey = "Content-Disposition";
+		String headerKey = "content-Dosposition";
 		String headerValue = String.format("attachment; filename=\"%s\"", MakeFileName.parseFileNameFromUUID(downloadFile.getName(), "\\$\\$"));
 		response.setHeader(headerKey, headerValue);
 		
@@ -43,7 +43,7 @@ public class FileDownloadResolver {
 		int bytesRead = -1;
 		
 		while((bytesRead = inStream.read(buffer)) != -1) {
-			outStream.write(buffer, 0, bytesRead);
+			outStream.write(buffer,0,bytesRead);
 		}
 		
 		inStream.close();

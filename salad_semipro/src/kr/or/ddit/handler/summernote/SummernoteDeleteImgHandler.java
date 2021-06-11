@@ -2,7 +2,6 @@ package kr.or.ddit.handler.summernote;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,21 +25,18 @@ public class SummernoteDeleteImgHandler implements Handler {
 		String savePath = GetUploadPath.getUploadPath("summernote.img");
 		String fileName = delReq.getFileName();
 		
-		fileName = URLDecoder.decode(fileName, "UTF-8");
-		
 		File target = new File(savePath + File.separator + fileName);
 		
 		response.setContentType("text/plain;charset=utf-8");
 		
 		PrintWriter out = response.getWriter();
 		
-		if (!target.exists()) {
+		if(!target.exists()) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		} else {
+		}else {
 			target.delete();
-			out.print(fileName + " 이미지를 삭제했습니다.");
+			out.println(fileName + "이미지를 삭제했습니다.");
 		}
-		
 		return url;
 	}
 

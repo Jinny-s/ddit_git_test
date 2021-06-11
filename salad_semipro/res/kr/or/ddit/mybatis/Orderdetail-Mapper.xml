@@ -26,7 +26,13 @@
 	<select id="updateOrderInfoByOno">
 		update orderdetail
 		set    name = #{name}
-		where  ono = #{ono};
+		where  ono = #{ono}
 	</select>
+	
+	<update id="insertOrderdetail">
+		insert into
+		orderdetail (ono, pno, qty, price, name, address, phone, pname)
+		values		(#{ono}, #{pno}, #{qty}, #{price}, #{name}, #{address}, #{phone}, #{pname})
+	</update>
 	
 </mapper>

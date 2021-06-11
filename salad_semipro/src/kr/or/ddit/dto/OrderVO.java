@@ -10,7 +10,14 @@ public class OrderVO {
 	private Date orderdate;
 	private String orderstatus;
 	
+	private int price;
 	
+	public int getPrice() {
+		return price;
+	}
+	public void setPrice(int price) {
+		this.price = price;
+	}
 	private String pname; // 상품명
 	private int pcount; // 상세상품개수
 	public int getPcount() {

@@ -19,31 +19,34 @@ public class MemberUploadPictureHandler implements Handler {
 	private static final int MEMORY_THRESHOLD = 1024 * 500;			// 500KB
 	private static final int MAX_FILE_SIZE = 1024 * 1024 * 1;		// 1MB
 	private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 2;	// 2MB
+
 	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String url = null;
+		String url=null;
 		
-		MultipartHttpServletRequestParser multi = null;
+		MultipartHttpServletRequestParser multi=null;
 		
 		try {
-			multi = new MultipartHttpServletRequestParser(request, MEMORY_THRESHOLD, MAX_FILE_SIZE, MAX_REQUEST_SIZE);
+			multi = new MultipartHttpServletRequestParser(request,MEMORY_THRESHOLD, 
+					MAX_FILE_SIZE, MAX_REQUEST_SIZE);
 			
-			// 파일 저장 경로 설정
+			//파일 저장 경로 설정
 			String uploadPath = GetUploadPath.getUploadPath("member.picture.upload");
 			
-			// 사진 이미지 저장
-			List<AttachVO> attachList = FileUploadResolver.fileUpload(multi.getFileItems("pictureFile"), uploadPath);
+			//사진이미지 저장
+			List<AttachVO> attachList 
+			= FileUploadResolver.fileUpload(multi.getFileItems("pictureFile"),uploadPath);
 			
-			if(attachList.size() > 0) {
+			if(attachList.size()>0) {
 				response.setCharacterEncoding("utf-8");
 				PrintWriter out = response.getWriter();
-				for (AttachVO attach : attachList) {
+				for(AttachVO attach : attachList) {
 					out.print(attach.getFileName());
 				}
 			}
 			
-			// 기존이미지 삭제
+			//기존이미지 삭제
 			String oldPicture = multi.getParameter("oldPicture");
 			File oldFile = new File(uploadPath + File.separator + oldPicture);
 			if (oldFile.exists()) {
@@ -53,7 +56,9 @@ public class MemberUploadPictureHandler implements Handler {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
-		}
+		} 
+		
 		return url;
 	}
+
 }

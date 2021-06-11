@@ -7,8 +7,7 @@ import kr.or.ddit.controller.JSONResolver;
 import kr.or.ddit.dto.MenuVO;
 import kr.or.ddit.service.MenuService;
 
-public class GetMcodeByMnameHandler implements Handler {
-	
+public class GetMcodeByMnameHandler implements Handler{
 	private MenuService menuService;
 	public void setMenuService(MenuService menuService) {
 		this.menuService = menuService;

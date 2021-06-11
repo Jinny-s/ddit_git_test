@@ -9,9 +9,10 @@ import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.handler.Handler;
 import kr.or.ddit.service.MemberService;
 
-public class MemberListSearchPageHandler implements Handler {
-
+public class MemberListSearchPageHandler implements Handler{
+	
 	private MemberService memberService;
+	
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
 	}
@@ -19,23 +20,23 @@ public class MemberListSearchPageHandler implements Handler {
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String url = "member/list";
-		
-		String page = request.getParameter("page");
-		String perPageNum = request.getParameter("perPageNum");
-		String searchType = request.getParameter("searchType");
-		String keyword = request.getParameter("keyword");
+		String pageParam = request.getParameter("page");
+		String perPageNumParam = request.getParameter("perPageNum");
+		String searchTypeParam = request.getParameter("searchType");
+		String keywordParam = request.getParameter("keyword");
 		
 		SearchCriteria cri = new SearchCriteria();
-		cri.setPage(page);
-		cri.setPerPageNum(perPageNum);
-		cri.setSearchType(searchType);
-		cri.setKeyword(keyword);
+		cri.setPage(pageParam);
+		cri.setPerPageNum(perPageNumParam);
+		cri.setSearchType(searchTypeParam);
+		cri.setKeyword(keywordParam);
 		
 		Map<String, Object> dataMap = memberService.getMemberList(cri);
 		
-		request.setAttribute("memberList", dataMap.get("memberList"));
+		request.setAttribute("memList", dataMap.get("memList"));
 		request.setAttribute("pageMaker", dataMap.get("pageMaker"));
 		
 		return url;
 	}
+
 }

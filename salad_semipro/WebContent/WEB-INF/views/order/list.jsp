@@ -98,7 +98,7 @@
 							
 							</td>
 							<td>${order.id }</td>
-							<td>${order.totalprice }</td>
+							<td>${order.totalprice }원</td>
 							<td>
 								<fmt:formatDate value="${order.orderdate }" pattern="yyyy-MM-dd"/>
 							</td>

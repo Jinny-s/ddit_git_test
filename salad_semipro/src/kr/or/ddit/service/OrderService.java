@@ -15,7 +15,7 @@ public interface OrderService {
 	Map<String, Object> getOrder(int ono) throws SQLException;
 		
 	// 주문 추가
-	void order(OrderVO order) throws SQLException;
+	int order(OrderVO order) throws SQLException;
 	
 	// 주문 상태 변경
 	void modify(int ono) throws SQLException;

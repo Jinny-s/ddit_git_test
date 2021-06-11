@@ -1,14 +1,14 @@
+
 package kr.or.ddit.dao;
 
 import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionException;
 
 import kr.or.ddit.dto.MenuVO;
 
-public class MenuDAOImpl implements MenuDAO {
+public class MenuDAOImpl implements MenuDAO{
 
 	@Override
 	public List<MenuVO> selectMainMenu(SqlSession session) throws SQLException {
@@ -24,13 +24,14 @@ public class MenuDAOImpl implements MenuDAO {
 
 	@Override
 	public MenuVO selectMenuByMcode(SqlSession session, String mCode) throws SQLException {
-		MenuVO menu = session.selectOne("Menu-Mapper.selectMenuByMcode", mCode);
-		return menu;
+		MenuVO menuVO = session.selectOne("Menu-Mapper.selectMenuByMcode", mCode);
+		return menuVO;
 	}
 
 	@Override
 	public MenuVO selectMenuByMname(SqlSession session, String mName) throws SQLException {
-		MenuVO menu = session.selectOne("Menu-Mapper.selectMenuByMname", mName);
-		return menu;
+		MenuVO menuVO = session.selectOne("Menu-Mapper.selectMenuByMname", mName);
+		return menuVO;
 	}
+
 }

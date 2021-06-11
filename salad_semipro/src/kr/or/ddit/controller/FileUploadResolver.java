@@ -10,16 +10,16 @@ import kr.or.ddit.dto.AttachVO;
 import kr.or.ddit.utils.MakeFileName;
 
 public class FileUploadResolver {
-	
+
 	public static List<AttachVO> fileUpload(FileItem[] items, String uploadPath) throws Exception {
-		
+
 		List<AttachVO> attachList = new ArrayList<AttachVO>();
-		
+
 		File file = new File(uploadPath);
 		if (!file.mkdirs()) {
 			System.out.println(uploadPath + "가 이미 존재하거나 생성을 실패했습니다.");
 		}
-		
+
 		if (items != null)
 			for (FileItem item : items) {
 				if (!item.isFormField()) {
@@ -27,26 +27,27 @@ public class FileUploadResolver {
 					fileName = MakeFileName.toUUIDFileName(fileName, "$$");
 					String filePath = uploadPath + File.separator + fileName;
 					File storeFile = new File(filePath);
-					
-					// local HDD에 저장
+
+					// 	local HDD 에 저장.
 					try {
 						item.write(storeFile);
 					} catch (Exception e) {
 						e.printStackTrace();
 						throw e;
 					}
-					
-					// DB에 저장할 attach에 file 내용 추가
+
+					// DB에 저장할 attach에 file 내용 추가.
 					AttachVO attach = new AttachVO();
 					attach.setFileName(fileName);
 					attach.setUploadPath(uploadPath);
 					attach.setFileType(fileName.substring(fileName.lastIndexOf(".") + 1));
-					
+
 					attachList.add(attach);
-					
+
 					System.out.println("upload file : " + attach);
 				}
 			}
+
 		return attachList;
 	}
 }

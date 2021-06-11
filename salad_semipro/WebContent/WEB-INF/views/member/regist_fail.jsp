@@ -1,8 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<hr><%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true"%>
-
+<%@ page trimDirectiveWhitespaces="true" %>
 <script>
-	alert("시스템 장애로 회원등록에 실패했습니다./n관리자에게 문의바랍니다.");
+	alert("예기치 못한 오류로 인해 회원가입에 실패하였습니다.");
 	history.go(-1);
 </script>

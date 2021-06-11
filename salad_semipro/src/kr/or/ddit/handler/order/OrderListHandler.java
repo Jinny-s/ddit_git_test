@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.handler.Handler;
 import kr.or.ddit.service.OrderService;
+import kr.or.ddit.service.ProductService;
 
 public class OrderListHandler implements Handler {
 	
@@ -15,6 +16,12 @@ public class OrderListHandler implements Handler {
 	public void setOrderService(OrderService orderService) {
 		this.orderService = orderService;
 	}
+	
+	private ProductService productService;
+	public void setProductService(ProductService productService) {
+		this.productService = productService;
+	}
+
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -32,6 +39,11 @@ public class OrderListHandler implements Handler {
 		cri.setKeyword(keyword);
 		
 		Map<String, Object> dataMap = null;
+		
+		
+		
+		
+		
 		
 		try {
 			dataMap = orderService.getOrderList(cri);

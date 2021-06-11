@@ -12,6 +12,7 @@ import kr.or.ddit.command.PageMaker;
 import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dao.OrderDAO;
 import kr.or.ddit.dao.OrderdetailDAO;
+import kr.or.ddit.dao.ProductDAO;
 import kr.or.ddit.dto.OrderVO;
 import kr.or.ddit.dto.OrderdetailVO;
 
@@ -25,6 +26,11 @@ public class OrderServiceImpl implements OrderService {
 	private OrderdetailDAO orderdetailDAO;
 	public void setOrderdetailDAO(OrderdetailDAO orderdetailDAO) {
 		this.orderdetailDAO = orderdetailDAO;
+	}
+	
+	private ProductDAO productDAO;
+	public void setProductDAO(ProductDAO productDAO) {
+		this.productDAO = productDAO;
 	}
 
 	private SqlSessionFactory sqlSessionFactory;
@@ -85,18 +91,18 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void order(OrderVO order) throws SQLException {
+	public int order(OrderVO order) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
 		
+		int ono = 0;
 		try {
-			int ono = orderDAO.selectOrderSequenceNextValue(session);
+			ono = orderDAO.selectOrderSequenceNextValue(session);
 			order.setOno(ono);
 			orderDAO.insertOrder(session, order);
 		} finally {
 			session.close();
 		}
-		
-		
+		return ono;
 	}
 
 	@Override

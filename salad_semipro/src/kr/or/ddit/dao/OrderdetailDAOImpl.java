@@ -32,4 +32,9 @@ public class OrderdetailDAOImpl implements OrderdetailDAO {
 		session.update("Orderdetail-Mapper.updateOrderInfoByOno", detail);
 	}
 
+	@Override
+	public void insertOrderdetail(SqlSession session, OrderdetailVO detail) throws SQLException {
+		session.update("Orderdetail-Mapper.insertOrderdetail", detail);
+	}
+
 }

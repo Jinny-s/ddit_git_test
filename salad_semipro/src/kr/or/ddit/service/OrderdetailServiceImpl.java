@@ -64,4 +64,15 @@ public class OrderdetailServiceImpl implements OrderdetailService {
 		}
 	}
 
+	@Override
+	public void orderdetail(OrderdetailVO detail) throws SQLException {
+		SqlSession session = sqlSessionFactory.openSession();
+		try {
+			orderdetailDAO.insertOrderdetail(session, detail);
+		} catch (Exception e) {
+			session.close();
+		}
+		
+	}
+
 }

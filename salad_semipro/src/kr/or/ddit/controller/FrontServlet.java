@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import kr.or.ddit.dto.MemberVO;
 import kr.or.ddit.handler.Handler;
 
+@WebServlet("/FrontServlet")
 public class FrontServlet extends HttpServlet {
-       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		requestPro(request, response);
 	}
@@ -22,52 +23,33 @@ public class FrontServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		requestPro(request, response);
 	}
-
-	protected void requestPro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		// 사용자 URI 검출
-		String command = request.getRequestURI(); // contextPath 포함
-		if (command.indexOf(request.getContextPath()) == 0) { // contextPath 삭제
+	
+	private void requestPro(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+		String command = request.getRequestURI();
+		if(command.indexOf(request.getContextPath()) == 0) {
 			command = command.substring(request.getContextPath().length());
 		}
 		
-		// 로그인 확인 (좋은 방법 아님 → filter 처리할 것)
-//		if(!command.contains("login")) {
-//			HttpSession session = request.getSession();
-//			MemberVO member = (MemberVO) session.getAttribute("loginUser");
-//			if(member==null) { // login하지 않은 상태
-//				response.setContentType("text/html;charset=utf-8");
-//				PrintWriter out = response.getWriter();
-//				out.println("<script>");
-//				out.println("alert('로그인은 필수입니다.');");
-//				out.println("location.href='/';");
-//				out.println("</script>");
-//				return;
-//			}
-//		}
-		
-		// commandHandler 실행 (HandlerMapper 의뢰 handler 할당)
 		Handler handler = null;
 		String view = null;
 		
-		if (handlerMapper != null) {
+		if(handlerMapper != null) {
 			handler = handlerMapper.getHandler(command);
-			if(handler != null) { // 올바른 요청
+			if(handler != null) {
 				try {
 					view = handler.process(request, response);
-					
-					if(view != null) ViewResolver.view(request, response, view);
-					
+					if(view != null) {
+						ViewResolver.view(request, response, view);
+					}
 				} catch (Exception e) {
-					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 					e.printStackTrace();
+					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 Error
 				}
-				
-			} else {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			}else {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404 Error(Page Not Found)
 			}
-		} else {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		}else {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // 500 Error
 		}
 	}
 
@@ -86,7 +68,7 @@ public class FrontServlet extends HttpServlet {
 		}
 	}
 
-	private Object injectionBean(String classType) throws Exception {
+	private Object injectionBean(String classType) throws Exception{
 		Class<?> cls = Class.forName(classType);
 		return cls.newInstance();
 	}

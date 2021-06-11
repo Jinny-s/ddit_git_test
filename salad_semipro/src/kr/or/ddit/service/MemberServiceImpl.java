@@ -14,27 +14,27 @@ import kr.or.ddit.command.SearchCriteria;
 import kr.or.ddit.dao.MemberDAO;
 import kr.or.ddit.dto.MemberVO;
 import kr.or.ddit.exception.InvalidPasswordException;
-import kr.or.ddit.exception.NotFoundIDException;
+import kr.or.ddit.exception.NotFoundException;
 
 public class MemberServiceImpl implements MemberService {
-	
 	private SqlSessionFactory sqlSessionFactory;
+	private MemberDAO memberDAO;
+	
 	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
 		this.sqlSessionFactory = sqlSessionFactory;
 	}
-	
-	private MemberDAO memberDAO;
+
 	public void setMemberDAO(MemberDAO memberDAO) {
 		this.memberDAO = memberDAO;
 	}
-	
+
 	@Override
-	public void login(String id, String pwd) throws SQLException, NotFoundIDException, InvalidPasswordException {
+	public void login(String id, String pwd) throws SQLException, NotFoundException, InvalidPasswordException {
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
 			MemberVO member = memberDAO.selectMemberById(session, id);
-			if (member == null) 
-				throw new NotFoundIDException();
+			if (member == null)
+				throw new NotFoundException();
 			if (!pwd.equals(member.getPwd()))
 				throw new InvalidPasswordException();
 		} finally {
@@ -57,8 +57,8 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> getMemberList() throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
-			List<MemberVO> memberList = memberDAO.selectMemberList(session);
-			return memberList;
+			List<MemberVO> memList = memberDAO.selectMemberList(session);
+			return memList;
 		} finally {
 			session.close();
 		}
@@ -68,8 +68,8 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberVO> getMemberList(Criteria cri) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
-			List<MemberVO> memberList = memberDAO.selectMemberList(session, cri);
-			return memberList;
+			List<MemberVO> memList = memberDAO.selectMemberList(session,cri);
+			return memList;
 		} finally {
 			session.close();
 		}
@@ -78,19 +78,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public Map<String, Object> getMemberList(SearchCriteria cri) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
-		
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		
 		try {
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
 			pageMaker.setTotalCount(memberDAO.selectMemberListCount(session, cri));
 			
-			List<MemberVO> memberList = memberDAO.selectMemberList(session, cri);
+			List<MemberVO> memList = memberDAO.selectMemberList(session,cri);
 			
-			dataMap.put("memberList", memberList);
+			dataMap.put("memList",memList);
 			dataMap.put("pageMaker", pageMaker);
-			
 			return dataMap;
 		} finally {
 			session.close();
@@ -100,7 +97,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void regist(MemberVO member) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
-		
 		try {
 			memberDAO.insertMember(session, member);
 		} finally {
@@ -111,7 +107,6 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void modify(MemberVO member) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
-		
 		try {
 			memberDAO.updateMember(session, member);
 		} finally {
@@ -122,19 +117,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void remove(String id) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
-		
 		try {
 			memberDAO.deleteMember(session, id);
 		} finally {
 			session.close();
 		}
-		
 	}
 
 	@Override
 	public void disabled(String id) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
-		
 		try {
 			memberDAO.disabledMember(session, id);
 		} finally {
@@ -145,13 +137,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void enabled(String id) throws SQLException {
 		SqlSession session = sqlSessionFactory.openSession();
-		
 		try {
 			memberDAO.enabledMember(session, id);
 		} finally {
 			session.close();
 		}
-		
 	}
 
 }

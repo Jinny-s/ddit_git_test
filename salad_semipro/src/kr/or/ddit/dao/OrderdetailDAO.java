@@ -20,4 +20,7 @@ public interface OrderdetailDAO {
 	
 	// 주소지 변경
 	public void updateOrderInfoByOno(SqlSession session, OrderdetailVO detail) throws SQLException;
+	
+	// 주문상세 추가
+	public void insertOrderdetail(SqlSession session, OrderdetailVO detail) throws SQLException;
 }
